@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>成長する○×ゲーム</title>
+		<link rel="stylesheet" href="./default.css" type="text/css">
+	</head>
+
+	<body>
+
+		<wicket:extend>
+
+			<div style="margin:0px;padding:10px;border-style:groove;">
+
+				<h3>このサイトは何？</h3>
+				<p>
+				　いわゆる○×ゲームです。ただの○×ゲームではなくて、だんだん強くなる○×ゲームです。
+				<a href="http://d.hatena.ne.jp/nigredo" target="_blank">はてなIDのNigredo</a>がまた変なのを
+				作りたくなって作りました。「ゲーム開始」ボタンからスタートすることができます。対戦は、あなた、コンピュータ、あなた・・・と交互に先行を交代して
+				開始します。
+				</p>
+				<h3>コンピュータの思考</h3>
+				<p>
+				<h4>考えないコンピュータ</h4>
+				　処理は単純に、今までの戦歴を元に、次の手をまねて行きます。たったコレだけです。ですので、始めは弱いのですが、だんだん
+				強くなっていくはずです。多分・・・。簡単なアルゴリズムは以下の通りで簡単です。
+
+				<ol>
+					<li>コンピュータが先手の場合は、以前の戦歴から一番勝つ確率が高い手の１手目を打ちます。まだ無い場合はランダムに打ちます。</li>
+					<li>
+						今の盤目により、打ち方を変えます
+						<ol>
+							<li>過去に同じ盤目になったことが無い場合、ランダムに打ちます。</li>
+							<li>過去に同じ盤目になったことが１度ある場合で、結果が勝利の場合それと同じ手を打ちます。負ける場合はランダムに打ちます。</li>
+							<li>過去に同じ盤目になったことがいくらかある場合、勝つ確率が高い手を打ちます。全ての手が負ける場合はランダムに打ちます。</li>
+						</ol>
+					</li>
+
+				</ol>
+				</p>
+
+				<h3>TODO</h3>
+				<p>
+					<table>
+						<tr>
+							<th>-</th><th>項目</th><th>備考</th><th>日付</th>
+						</tr>
+						<tr>
+							<td>済</td><td>ゲーム数を表示</td>	<td>　</td><td>2010/02/24</td>
+						</tr>
+						<tr>
+							<td>済</td><td>コンピュータ対コンピュータ</td>	<td>　</td><td>2010/02/24</td>
+						</tr>
+						<tr>
+							<td>没</td><td><s>勝率を表示</s></td><td>対戦履歴をグラフ化したほうが良いのでは？ということで没</td><td>2010/02/24</td>
+						</tr>
+						<tr>
+							<td>　</td><td>戦履歴を保存。</td>	<td>いちいち、強くなるまで何十戦もやってられないしね</td><td> </td>
+						</tr>
+						<tr>
+							<td>　</td><td>タイトルで保存した対戦履歴を選択して始めることができる。</td>	<td>　</td><td>　</td>
+						</tr>
+						<tr>
+							<td>　</td><td>誰かが保存した対戦履歴を使って対戦できる</td>	<td>　</td><td>　</td>
+						</tr>
+						<tr>
+							<td>　</td><td>誰かの対戦履歴と誰かの対戦履歴で対戦させる・・・なんか変な表現</td>	<td>　</td><td>　</td>
+						</tr>
+						<tr>
+							<td>　</td><td>対戦履歴のグラフ化（勝率とか・・・勝率の分布をグラフ化とか）</td>	<td>　</td><td>　</td>
+						</tr>
+						<tr>
+							<td>　</td><td>コンピュータの人格化</td>	<td>今の対戦はなんか味気なさすぎ・・・</td><td>　</td>
+						</tr>
+						<tr>
+							<td>　</td><td>数百試合やったデータの作成。</td>	<td>本当にそこそこ強いデータになるんだろうか・・・</td><td>　</td>
+						</tr>
+						<tr>
+							<td>没</td><td><s>敵のマークが２個ならんだらブロック</s></td><td>これは実装しちゃうと初めから「負けない」になるので没</td><td>2010/02/26</td>
+						</tr>
+						<tr>
+							<td>没</td><td><s>自分のマークが２個ならんだら勝つ</s></td><td>これは実装しちゃうと初めから「負けない」になるので没</td><td>2010/02/26</td>
+						</tr>
+						<tr>
+							<td>　</td><td>画面デザイン、CSSのem化など</td><td>固定サイズフォントはやめましょう。</td><td>　</td>
+						</tr>
+					</table>
+
+				</p>
+			</div>
+
+			<div class="topmenu">
+
+				<table style="width:350;" class="topmenu">
+					<tr>
+						<td class="topmenu">
+							Player 1
+						</td>
+						<td class="topmenu">
+							<select wicket:id="selectplayer">
+								<option>あなた</option>
+								<option>コンピュータ</option>
+							</select>
+						</td>
+						<td rowspan="4" style="vertical-align:top;" class="topmenu">
+
+						<input type="submit" wicket:id="start" class="menulink" value="ゲームを開始する"/>
+						&nbsp;
+						<input type="submit" wicket:id="start100" class="menulink" value="先に１００戦ぐらいさせとく"/>
+
+						</td>
+					</tr>
+					<tr>
+						<td class="topmenu">
+							Player 2
+						</td>
+						<td class="topmenu">
+							コンピュータ
+						</td>
+					</tr>
+				</table>
+
+			</div>
+
+		</wicket:extend>
+
+	</body>
+
+</html>
+

@@ -1,0 +1,327 @@
+<html>
+	<head>
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>成長する○×ゲーム</title>
+		<link rel="stylesheet" href="./default.css" type="text/css">
+	</head>
+
+	<body>
+
+
+
+		<wicket:head>
+			<style>
+				.cell{
+					border-style: solid;
+					border-width:1px;
+					border-color:black;
+				}
+				.mouseover{
+					border-style: solid;
+					border-width:1px;
+					border-color:red;
+				}
+
+			</style>
+			<script>
+
+				function resizeWindow(scr){
+					scr.style.width  = getBrowserWidth();
+					scr.style.height = getBrowserHeight();
+				}
+
+				function disableAll(){
+
+					var scr = drawScreen('white');
+					document.body.style.cursol="wait";
+					scr.style.filter="alpha(opacity=0);";
+					scr.innterHTML="";
+					return true;
+					document.body.onresize=resizeWindow(scr);
+
+				}
+
+				function youLoose(){
+					var scr = drawScreen('black');
+					scr.innerHTML = "<br>You Loose!!<br>";
+					scr.style.fontSize="150px";
+					var close = document.createElement("button");
+					close.innerHTML = "閉じる";
+					close.style.fontSize="60px";
+					close.onclick = function(){
+						scr.style.display="none";
+					};
+					scr.appendChild(close);
+					document.body.onresize=function(){
+						scr.style.width  = getBrowserWidth();
+						scr.style.height = getBrowserHeight();
+					};
+
+				}
+				function youWin(){
+
+					var scr = drawScreen('yellow');
+					scr.innerHTML = "<br>You Win!<br>";
+					scr.style.fontSize="150px";
+					var close = document.createElement("button");
+					close.innerHTML = "閉じる";
+					close.style.fontSize="60px";
+					close.onclick = function(){
+						scr.style.display="none";
+					};
+					scr.appendChild(close);
+					document.body.onresize=function(){
+						scr.style.width  = getBrowserWidth();
+						scr.style.height = getBrowserHeight();
+					};
+
+				}
+				function com1Win(){
+
+					var scr = drawScreen('yellow');
+					scr.innerHTML = "<br>COM1 Win!<br>";
+					scr.style.fontSize="150px";
+					var close = document.createElement("button");
+					close.innerHTML = "閉じる";
+					close.style.fontSize="60px";
+					close.onclick = function(){
+						scr.style.display="none";
+					};
+					scr.appendChild(close);
+					document.body.onresize=function(){
+						scr.style.width  = getBrowserWidth();
+						scr.style.height = getBrowserHeight();
+					};
+
+				}
+				function drawGame(){
+					var scr = drawScreen('blue');
+					scr.innerHTML = "<br>-- Draw --<br>";
+					scr.style.fontSize="150px";
+					var close = document.createElement("button");
+					close.innerHTML = "閉じる";
+					close.style.fontSize="60px";
+					close.onclick = function(){
+						scr.style.display="none";
+					};
+					scr.appendChild(close);
+					document.body.onresize=function(){
+						scr.style.width  = getBrowserWidth();
+						scr.style.height = getBrowserHeight();
+					};
+
+				}
+
+				function drawScreen(bgcolor){
+					// ここで半透明のスクリーンを描画
+					var scr = document.createElement("DIV");
+					document.body.style.cursol="wait";
+					scr.innerHTML = "<br><br><br><br><br><br><h2>少々お待ちください。</h2>";
+					scr.id = "scr";
+					scr.name = "scr";
+					scr.style.borderStyle="solid";
+					scr.style.borderWidth="1px";
+					scr.style.position = "absolute";
+					scr.style.textValign="middle";
+					scr.style.textAlign="center";
+					scr.style.top = "0";
+					scr.style.left = "0";
+					scr.style.width  = getBrowserWidth();
+					scr.style.height = getBrowserHeight();
+					scr.style.backgroundColor=bgcolor;
+					scr.style.filter="Alpha(opacity=50)";
+					scr.style.MozOpacity = "0.50";
+    				scr.style.opacity = "0.50";
+					document.body.appendChild(scr);
+
+					return scr;
+				}
+
+
+				function callComTurn(){
+
+					var scr = drawScreen('white');
+
+					// コンピュータの手を考える
+					setTimeout("submitBtn()",500);
+
+				}
+
+				function submitBtn(){
+					var btn = document.getElementsByName("comturn")[0];
+					btn.click()
+				}
+
+				function getBrowserWidth() {
+				    if ( window.innerWidth ) {
+				        return window.innerWidth;
+				    }
+				    else if ( document.documentElement && document.documentElement.clientWidth != 0 ) {
+				        return document.documentElement.clientWidth;
+				    }
+				    else if ( document.body ) {
+				        return document.body.clientWidth;
+				    }
+				    return 0;
+				}
+				function getBrowserHeight() {
+				    if ( window.innerHeight ) {
+				        return window.innerHeight;
+				    }
+				    else if ( document.documentElement && document.documentElement.clientHeight != 0 ) {
+				        return document.documentElement.clientHeight;
+				    }
+				    else if ( document.body ) {
+				        return document.body.clientHeight;
+				    }
+				    return 0;
+				}
+
+
+			</script>
+
+		</wicket:head>
+
+
+		<wicket:extend>
+
+							<span                       style="font-size:20px;font-weight:bold;">試合数：</span>
+							<span wicket:id="gamecount" style="font-size:20px;">
+								123　　COM勝率：xxx%
+							</span>
+							&nbsp;&nbsp;
+							<span                       style="font-size:20px;font-weight:bold;display:none;">COM勝率：</span>
+							<span wicket:id="comwinrate" style="font-size:20px;display:none;">
+								xxx%
+							</span>
+
+			<div style="margin:0px;padding:10px;border-style:groove;">
+
+
+
+				<table class="board_table">
+					<tr class="board_tr">
+						<td class="board_td">
+							<a style="align:center;background-color:transparent;" wicket:id="cell1" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage1" src="maru.jpg" style="border-style:none;background-color:transparent;"/>
+							</a>
+						</td>
+						<td class="board_td">
+							<a wicket:id="cell2" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage2" src="maru.jpg" style="border-style:none;" />
+							</a>
+						</td>
+						<td class="board_td">
+							<a wicket:id="cell3" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage3" src="maru.jpg" style="border-style:none;" />
+							</a>
+						</td>
+						<td  class="board_td" rowspan="3" valign="top" style="background-image: url(board_usui.jpg);">
+
+							<table width="100%" border="0" style="font-size:40px;display:none;">
+								<tr>
+									<td style="width:80px;background-color:silver">ゲーム数</td>
+									<td style=           "background-color:white" >5963</td>
+								</tr>
+								<tr>
+									<td style="background-color:silver">勝率</td>
+									<td style="background-color:white" >99%</td>
+								</tr>
+							</table>
+
+							<div style="display:none;">
+								この試合の文字列化情報<div wicket:id="tostring">ここにデバッグ情報</div>
+								<br>
+								前の試合リスト<br>
+								<textarea wicket:id="turnlist" rows="10" cols="60">
+									ここにデバッグ情報
+								</textarea>
+							</div>
+
+
+							<span wicket:id="turninfo" style="font-size:100px;align:center;">
+								あなたの番
+							</span>
+
+						</td>
+					</tr>
+					<tr class="board.tr">
+						<td class="board_td">
+							<a wicket:id="cell4" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage4" src="maru.jpg" style="border-style:none;" />
+							</a>
+						</td>
+						<td class="board_td">
+							<a wicket:id="cell5" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage5" src="maru.jpg" style="border-style:none;" />
+							</a>
+						</td>
+						<td class="board_td">
+							<a wicket:id="cell6" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage6" src="maru.jpg" style="border-style:none;" />
+							</a>
+						</td>
+					</tr>
+					<tr class="board.tr">
+						<td class="board_td">
+							<a wicket:id="cell7" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage7" src="maru.jpg" style="border-style:none;" />
+							</a>
+						</td>
+						<td class="board_td">
+							<a wicket:id="cell8" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage8" src="maru.jpg" style="border-style:none;" />
+							</a>
+						</td>
+						<td class="board_td">
+							<a wicket:id="cell9" class="cell" onMouseover="this.className='mouseOver'" onMouseout="this.className='cell'">
+								<img wicket:id="cellimage9" src="maru.jpg" style="border-style:none;" />
+							</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="topmenu">
+
+
+				<table style="width:350;" class="topmenu" wicket:id="panel">
+					<tr>
+						<td class="topmenu">
+							Player 1
+						</td>
+						<td class="topmenu">
+							<select wicket:id="selectplayer">
+								<option>あなた</option>
+								<option>コンピュータ</option>
+							</select>
+						</td>
+						<td rowspan="4" style="vertical-align:top;" class="topmenu">
+
+							<input type="submit" wicket:id="restart" class="menulink" value="もう一試合する" />
+							<input type="submit" wicket:id="quite" class="menulink" value="やめる" />
+
+						</td>
+					</tr>
+					<tr>
+						<td class="topmenu">
+							Player 2
+						</td>
+						<td class="topmenu">
+							コンピュータ
+						</td>
+					</tr>
+				</table>
+
+
+			</div>
+
+			<!-- コンピュータ用の非表示ボタン -->
+			<input type="submit" wicket:id="comturn" value="comturn" style="display:none;" />
+
+
+		</wicket:extend>
+	</body>
+
+</html>
+
